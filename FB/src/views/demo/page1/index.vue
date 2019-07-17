@@ -1,6 +1,8 @@
 <template>
   <d2-container>
-    <template slot="header">用户管理</template>
+    <template slot="header">
+      <TableHead :formConfig="formConfig"></TableHead>
+    </template>
         <d2-crud
       ref="d2Crud"
       :columns="columns"
@@ -20,9 +22,22 @@
 </template>
 
 <script>
+import TableHead from '@/components/global/table/TableHead'
 export default {
+  components: {
+    TableHead
+  },
   data () {
     return {
+      formConfig: {
+        formItem: [
+          {
+            prop: 'search',
+            type: 'input',
+            placeholder: '请输入关键字'
+          }
+        ]
+      },
       columns: [
         {
           title: '日期',
