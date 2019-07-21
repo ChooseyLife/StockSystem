@@ -1,7 +1,7 @@
 <template>
   <d2-container>
     <template slot="header">
-      <TableHead :formConfig="formConfig"></TableHead>
+      <TableHead :formConfig="formConfig" :submit="searchMethod"></TableHead>
     </template>
         <d2-crud
       ref="d2Crud"
@@ -36,7 +36,13 @@ export default {
             type: 'input',
             placeholder: '请输入关键字'
           }
-        ]
+        ],
+        formData: {
+          search: ''
+        },
+        rules: {
+          search: [ { required: true, message: '请输入搜索的关键词', trigger: 'blur' } ]
+        }
       },
       columns: [
         {
@@ -195,6 +201,9 @@ export default {
     },
     paginationCurrentChange (currentPage) {
       this.pagination.currentPage = currentPage
+    },
+    searchMethod (value) {
+      console.log(value)
     }
   }
 }

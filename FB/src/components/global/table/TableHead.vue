@@ -1,8 +1,8 @@
 <template>
   <el-form
     :inline="true"
-    :model="form"
-    :rules="rules"
+    :model="formConfig.formData"
+    :rules="formConfig.rules"
     ref="form"
     size="mini"
     style="margin-bottom: -18px;">
@@ -13,7 +13,7 @@
       :prop="item.prop">
       <el-select
         v-if="item.type === 'select'"
-        v-model="form[item.prop]"
+        v-model="formConfig.formData[item.prop]"
         placeholder="状态选择"
         style="width: 100px;">
         <el-option
@@ -24,7 +24,7 @@
       </el-select>
       <el-input
         v-else-if="item.type === 'input'"
-        v-model.trim="form[item.prop]"
+        v-model.trim="formConfig.formData[item.prop]"
         :placeholder="item.placeholder"
         :type="item.type"></el-input>
     </el-form-item>
@@ -43,7 +43,6 @@
         重置
       </el-button>
     </el-form-item>
-
   </el-form>
 </template>
 
@@ -54,20 +53,6 @@ export default {
       type: Object
     }
   },
-  data () {
-    return {
-      form: {
-        type: '1',
-        user: 'FairyEver',
-        key: '',
-        note: ''
-      },
-      rules: {
-        type: [ { required: true, message: '请选择一个状态', trigger: 'change' } ],
-        user: [ { required: true, message: '请输入用户', trigger: 'change' } ]
-      }
-    }
-  },
   methods: {
     handleFormSubmit () {
       this.$refs.form.validate((valid) => {
@@ -76,7 +61,7 @@ export default {
         } else {
           this.$notify.error({
             title: '错误',
-            message: '表单校验失败'
+            message: this.formConfig.message ? this.formConfig.message : '搜索错误'
           })
           return false
         }
