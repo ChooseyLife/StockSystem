@@ -1,7 +1,7 @@
 <template>
   <el-form
     :inline="true"
-    :model="formConfig.formData"
+    :model="form"
     :rules="formConfig.rules"
     ref="form"
     size="mini"
@@ -13,7 +13,7 @@
       :prop="item.prop">
       <el-select
         v-if="item.type === 'select'"
-        v-model="formConfig.formData[item.prop]"
+        v-model="form[item.prop]"
         placeholder="状态选择"
         style="width: 100px;">
         <el-option
@@ -24,7 +24,8 @@
       </el-select>
       <el-input
         v-else-if="item.type === 'input'"
-        v-model.trim="formConfig.formData[item.prop]"
+        v-model.trim="form[item.prop]"
+        :clearable="true"
         :placeholder="item.placeholder"
         :type="item.type"></el-input>
     </el-form-item>
@@ -69,6 +70,16 @@ export default {
     },
     handleFormReset () {
       this.$refs.form.resetFields()
+    }
+  },
+  computed: {
+    form: {
+      set (val) {
+        console.log(val)
+      },
+      get () {
+        return this.formConfig.formData
+      }
     }
   }
 }
