@@ -12,6 +12,9 @@
       :align="config.options.align">
         <template slot-scope="scope">
           <span v-if="colItem.type === 'text'" v-text="scope.row[colItem.key]"></span>
+          <span v-else-if="colItem.type === 'img'">
+            <img :src="scope.row[colItem.key]" style="width: 100%"/>
+          </span>
         </template>
       </el-table-column>
       <el-table-column

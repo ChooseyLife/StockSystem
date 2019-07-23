@@ -7,3 +7,10 @@ export function getUserList (data) {
     data
   })
 }
+export function getProductList (data) {
+  return request({
+    url: '/product',
+    method: 'get',
+    data
+  })
+}
