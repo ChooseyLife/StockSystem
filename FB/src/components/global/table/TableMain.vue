@@ -23,6 +23,7 @@
           :key="btnIdx"
           v-text="btnItem.title"
           :type="btnItem.type"
+          fixed="right"
           v-show="!scope.row.hideEvent.includes(btnItem.event)"
           @click="btnEvent(btnItem, scope.row, scope.$index)"></el-button>
         </template>
