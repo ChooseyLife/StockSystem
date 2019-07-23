@@ -26,6 +26,7 @@
 import TableHead from '@/components/global/table/TableHead'
 import TableMain from '@/components/global/table/TableMain'
 import TableFooter from '@/components/global/table/TableFooter'
+import { getUserList } from '@/api/userApi'
 export default {
   components: {
     TableHead, TableFooter, TableMain
@@ -44,7 +45,7 @@ export default {
         }
       )
     }
-    this.tableConfig.page.pageTotal = this.tableConfig.data.length
+    this.getList()
   },
   data () {
     return {
@@ -71,18 +72,18 @@ export default {
             type: 'text'
           },
           {
-            title: '日期',
+            title: '更新时间',
             key: 'date',
             type: 'text'
           },
           {
-            title: '姓名',
-            key: 'name',
+            title: '用户名',
+            key: 'username',
             type: 'text'
           },
           {
-            title: '地址',
-            key: 'address',
+            title: '角色',
+            key: 'role',
             type: 'text'
           }
         ],
@@ -177,6 +178,16 @@ export default {
     }
   },
   methods: {
+    getList () {
+      getUserList().then(res => {
+        this.tableConfig.data = res.list.map(item => {
+          item.hideEvent = []
+          return item
+        })
+        this.tableConfig.page.pageTotal = res.list.length
+        console.log(res)
+      })
+    },
     handleDialogOpen ({ mode, row }) {
       this.$message({
         message: '打开模态框，模式为：' + mode,
