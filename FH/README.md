@@ -1,7 +1,13 @@
-#基于cnode重写 [原cnode](https://github.com/shinygang/Vue-cnodejs)
+#基于vue.js重写Cnodejs.org社区的webapp [线上访问地址](http://shinygang.coding.me/)
+
+## 注意：当前项目代码已经升级到2.0，均采用vue-cli搭建的程序，非vue-cli的版本请看分支：not-vue-cli
+ * master分支采用vue-cli构建的2.0版本。
+ * ssr分支采用服务端渲染
+ * 1.x代码请看1.x分支。
+ * not-vue-cli则是没有采用vue-cli搭建的原始版本
 
 -------
-#### ` 如果有帮助，恳请给cnode作者累积一个大保健的机会，欢迎扫码`
+#### ` 如果对你有帮助，恳请给作者累积一个大保健的机会，欢迎扫码`
 ![](http://ww1.sinaimg.cn/large/79462090ly1flmcqgz0xwj21080q2anh.jpg)
 
 ###安装
