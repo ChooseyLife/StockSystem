@@ -26,25 +26,12 @@
 import TableHead from '@/components/global/table/TableHead'
 import TableMain from '@/components/global/table/TableMain'
 import TableFooter from '@/components/global/table/TableFooter'
-import { getUserList } from '@/api/userApi'
+import { getProductList } from '@/api/userApi'
 export default {
   components: {
     TableHead, TableFooter, TableMain
   },
   mounted () {
-    for (let k = 0; k < 20; k++) {
-      this.tableConfig.data.push(
-        {
-          id: k + 1,
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄',
-          forbidEdit: false,
-          showEditButton: true,
-          hideEvent: []
-        }
-      )
-    }
     this.getList()
   },
   data () {
@@ -67,24 +54,14 @@ export default {
       tableConfig: {
         columns: [
           {
-            title: 'id',
-            key: 'id',
+            title: '名称',
+            key: 'price',
             type: 'text'
           },
           {
-            title: '更新时间',
-            key: 'date',
-            type: 'text'
-          },
-          {
-            title: '用户名',
-            key: 'username',
-            type: 'text'
-          },
-          {
-            title: '角色',
-            key: 'role',
-            type: 'text'
+            title: '备注',
+            key: 'thumb',
+            type: 'img'
           }
         ],
         options: {
@@ -179,7 +156,7 @@ export default {
   },
   methods: {
     getList () {
-      getUserList().then(res => {
+      getProductList().then(res => {
         this.tableConfig.data = res.list.map(item => {
           item.hideEvent = []
           return item

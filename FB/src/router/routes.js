@@ -23,31 +23,58 @@ const frameIn = [
       },
       // 演示页面
       {
-        path: 'page1',
-        name: 'page1',
+        path: 'member',
+        name: 'member',
         meta: {
-          title: '用户管理',
+          title: '客户管理',
           auth: true
         },
-        component: _import('demo/page1')
+        component: _import('manager/member/index')
       },
       {
-        path: 'page2',
-        name: 'page2',
+        path: 'company',
+        name: 'company',
         meta: {
-          title: '产品管理',
+          title: '承运公司管理',
           auth: true
         },
-        component: _import('demo/page2')
+        component: _import('manager/company/index')
       },
       {
-        path: 'page3',
-        name: 'page3',
+        path: 'mailiCost',
+        name: 'mailiCost',
         meta: {
-          title: '页面 3',
+          title: '寄件运算结算管理',
           auth: true
         },
-        component: _import('demo/page3')
+        component: _import('manager/mailiCost/index')
+      },
+      {
+        path: 'otherCost',
+        name: 'otherCost',
+        meta: {
+          title: '杂费入账',
+          auth: true
+        },
+        component: _import('manager/otherCost/index')
+      },
+      {
+        path: 'account',
+        name: 'account',
+        meta: {
+          title: '生成账单',
+          auth: true
+        },
+        component: _import('manager/account/index')
+      },
+      {
+        path: 'backup',
+        name: 'backup',
+        meta: {
+          title: '备份与恢复',
+          auth: true
+        },
+        component: _import('manager/backup/index')
       },
       // 系统 前端日志
       {

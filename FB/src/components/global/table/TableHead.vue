@@ -25,7 +25,7 @@
       <el-input
         v-else-if="item.type === 'input'"
         v-model.trim="form[item.prop]"
-        :clearable="true"
+        clearable
         :placeholder="item.placeholder"
         :type="item.type"></el-input>
     </el-form-item>
@@ -39,9 +39,17 @@
     </el-form-item>
     <el-form-item>
       <el-button
-        @click="handleFormReset">
-        <d2-icon name="refresh"/>
-        重置
+        @click="handleExport">
+        <d2-icon name="arrow-circle-down"/>
+        导出
+      </el-button>
+    </el-form-item>
+    <el-form-item class="d2-fr">
+      <el-button
+        type="primary"
+        @click="handleAdd">
+        <d2-icon name="plus"/>
+        添加
       </el-button>
     </el-form-item>
   </el-form>
@@ -68,8 +76,11 @@ export default {
         }
       })
     },
-    handleFormReset () {
-      this.$refs.form.resetFields()
+    handleExport () {
+      this.$emit('exportEvent')
+    },
+    handleAdd () {
+      this.$emit('add')
     }
   },
   computed: {

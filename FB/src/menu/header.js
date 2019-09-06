@@ -5,9 +5,12 @@ export default [
     title: '用户模块',
     icon: 'folder-o',
     children: [
-      { path: '/page1', title: '用户管理' },
-      { path: '/page2', title: '产品管理' },
-      { path: '/page3', title: '数据报表' }
+      { path: '/member', title: '客户管理' },
+      { path: '/company', title: '承运公司管理' },
+      { path: '/mailiCost', title: '寄件运算结算管理' },
+      { path: '/otherCost', title: '杂费入账' },
+      { path: '/account', title: '生成账单' },
+      { path: '/backup', title: '备份与恢复' }
     ]
   }
 ]

@@ -1,20 +1,18 @@
 <template>
   <d2-container>
-      <TableHead slot="header" :formConfig="formConfig" @submit="searchMethod"></TableHead>
-      <!-- <d2-crud
-      :columns="tableConfig.columns"
-      :data="tableConfig.data"
-      :rowHandle="rowHandle"
-      :edit-template="tableConfig.editTemplate"
-      :form-options="tableConfig.formOptions"
-      @dialog-open="handleDialogOpen"
-      @row-edit="handleRowEdit"
-      @dialog-cancel="handleDialogCancel"
-      @row-remove="handleRowRemove"></d2-crud> -->
+      <TableHead slot="header" :formConfig="searchConfig" @submit="searchMethod" @add="handleAdd"></TableHead>
       <TableMain
       :config="tableConfig"
       @Edit="btnEdit"
-      @Del="btnDel"></TableMain>
+      @Del="btnDel">
+        <m-dialog :config="config" @confirm="handleConfirm">
+          <el-form :model="formData" :rules="rules" ref="form">
+            <el-form-item v-for="(item, idx) in formList" :key="idx" :label="item.label" :prop="item.prop">
+              <el-input v-if="item.type === 'input'" :type="item.isType" v-model="formData[item.prop]"></el-input>
+            </el-form-item>
+          </el-form>
+        </m-dialog>
+      </TableMain>
       <TableFooter
       slot="footer"
       :page="tableConfig.page"
@@ -26,17 +24,31 @@
 import TableHead from '@/components/global/table/TableHead'
 import TableMain from '@/components/global/table/TableMain'
 import TableFooter from '@/components/global/table/TableFooter'
-import { getProductList } from '@/api/userApi'
+import MDialog from '@/components/global/table/dialog'
+import { getUserList } from '@/api/userApi'
 export default {
   components: {
-    TableHead, TableFooter, TableMain
+    TableHead, TableFooter, TableMain, MDialog
   },
   mounted () {
+    for (let k = 0; k < 20; k++) {
+      this.tableConfig.data.push(
+        {
+          id: k + 1,
+          date: '2016-05-02',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄',
+          forbidEdit: false,
+          showEditButton: true,
+          hideEvent: []
+        }
+      )
+    }
     this.getList()
   },
   data () {
     return {
-      formConfig: {
+      searchConfig: {
         formItem: [
           {
             prop: 'search',
@@ -54,29 +66,19 @@ export default {
       tableConfig: {
         columns: [
           {
-            title: '序号',
-            key: 'id',
+            title: '名称',
+            key: 'date',
             type: 'text'
           },
           {
-            title: '产品名称',
-            key: 'name',
+            title: '电话',
+            key: 'username',
             type: 'text'
           },
           {
-            title: '库存',
-            key: 'num',
+            title: '备注',
+            key: 'role',
             type: 'text'
-          },
-          {
-            title: '价格',
-            key: 'price',
-            type: 'text'
-          },
-          {
-            title: '产品图片',
-            key: 'thumb',
-            type: 'img'
           }
         ],
         options: {
@@ -142,36 +144,18 @@ export default {
           }
         }
       },
-      rowHandle: {
-        edit: {
-          icon: 'el-icon-edit',
-          size: 'small',
-          fixed: 'right',
-          confirm: true,
-          show (index, row) {
-            if (row.showEditButton) {
-              return true
-            }
-            return false
-          },
-          disabled (index, row) {
-            if (row.forbidEdit) {
-              return true
-            }
-            return false
-          }
-        }
+      config: {
+        title: '',
+        visible: false
       },
-      formOptions: {
-        labelWidth: '80px',
-        labelPosition: 'left',
-        saveLoading: false
-      }
+      formList: [],
+      formData: [],
+      rules: []
     }
   },
   methods: {
     getList () {
-      getProductList().then(res => {
+      getUserList().then(res => {
         this.tableConfig.data = res.list.map(item => {
           item.hideEvent = []
           return item
@@ -180,68 +164,17 @@ export default {
         console.log(res)
       })
     },
-    handleDialogOpen ({ mode, row }) {
-      this.$message({
-        message: '打开模态框，模式为：' + mode,
-        type: 'success'
-      })
-    },
-    editRowWithNewTemplate () {
-      this.$refs.d2Crud.showDialog({
-        mode: 'edit',
-        rowIndex: 2,
-        template: {
-          date: {
-            title: '日期',
-            value: ''
-          },
-          name: {
-            title: '姓名',
-            value: ''
-          }
-        }
-      })
-    },
-    handleRowEdit ({ index, row }, done) {
-      this.formOptions.saveLoading = true
-      setTimeout(() => {
-        console.log(index)
-        console.log(row)
-        this.$message({
-          message: '编辑成功',
-          type: 'success'
-        })
-
-        // done可以传入一个对象来修改提交的某个字段
-        done({
-          address: '我是通过done事件传入的数据！'
-        })
-        this.formOptions.saveLoading = false
-      }, 300)
-    },
-    handleDialogCancel (done) {
-      this.$message({
-        message: '取消编辑',
-        type: 'warning'
-      })
-      done()
-    },
     handlePaginationChange (currentPage) {
       const key = currentPage.current ? 'current' : 'size'
       this.tableConfig.page[key === 'size' ? 'pageSize' : 'currentPage'] = currentPage[key]
       console.log(this.tableConfig.page, key, currentPage)
     },
-    handleRowRemove ({ index, row }, done) {
-      setTimeout(() => {
-        console.log(index)
-        console.log(row)
-        this.$message({
-          message: '删除成功',
-          type: 'success'
-        })
-        done()
-      }, 300)
+    handleAdd () {
+      console.log(1)
+      this.config.visible = true
+      this.config.title = '新建'
     },
+    handleConfirm () {},
     btnEdit (row, idx) {
       console.log(row, idx)
     },

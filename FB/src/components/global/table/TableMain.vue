@@ -1,5 +1,6 @@
 <template>
-  <el-table
+<div>
+    <el-table
       :data="tableData"
       v-loading="config.options.loading ? config.options.loading : false"
       :border="config.options.border"
@@ -31,7 +32,9 @@
           @click="btnEvent(btnItem, scope.row, scope.$index)"></el-button>
         </template>
       </el-table-column>
-    </el-table>
+  </el-table>
+  <slot></slot>
+</div>
 </template>
 <script>
 export default {
